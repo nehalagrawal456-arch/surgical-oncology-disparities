@@ -8,4 +8,4 @@ A beginner-built research project using public cancer data to study whether some
 - Get access to the SEER cancer database
 - Choose one cancer type and one question
 - Clean and analyze the data
-- Write up the results
+- Write up the results.
