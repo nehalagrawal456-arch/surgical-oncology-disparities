@@ -50,3 +50,45 @@ ggplot(plot_data, aes(x = ratio, y = group, xmin = low, xmax = high)) +
   theme_minimal()
 
 ggsave("county_chart.png", width = 9, height = 4)
+seer3$area <- ifelse(str_detect(seer3$county_type, "^Nonmetropolitan"),
+                     "Rural", "Urban and small metro")
+
+trend <- seer3 %>%
+  group_by(year, area) %>%
+  summarise(pct = 100 * mean(mastectomy), .groups = "drop")
+
+ggplot(trend, aes(x = year, y = pct, colour = area)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(title = "Mastectomy rate by year, rural vs other counties",
+       x = "Year of diagnosis",
+       y = "Women having a mastectomy (%)",
+       colour = "") +
+  theme_minimal()
+
+ggsave("trend_chart.png", width = 8, height = 4)
+seer3$area <- factor(seer3$area, levels = c("Urban and small metro", "Rural"))
+
+race_results <- seer3 %>%
+  group_by(race) %>%
+  group_modify(function(d, key) {
+    m <- glm(mastectomy ~ area + age_group + marital + year,
+             data = d, family = binomial)
+    ci <- confint.default(m)["areaRural", ]
+    data.frame(ratio = round(exp(as.numeric(coef(m)["areaRural"])), 2),
+               low = round(exp(ci[1]), 2),
+               high = round(exp(ci[2]), 2),
+               women = nrow(d))
+  })
+
+race_results
+
+ggplot(race_results, aes(x = ratio, y = race, xmin = low, xmax = high)) +
+  geom_pointrange() +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  labs(title = "Rural vs other counties: mastectomy odds by race",
+       x = "Odds in rural counties vs other counties (1 = no difference)",
+       y = "") +
+  theme_minimal()
+
+ggsave("race_chart.png", width = 8, height = 4)
