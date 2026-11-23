@@ -22,7 +22,9 @@ Women in rural (nonmetropolitan) counties had about 28% higher odds of a mastect
 
 ## Files
 - `seer_breast_analysis.R`: full analysis code
-- `county_chart.png`: results chart
+- `county_chart.png`: odds of mastectomy by county type
+- `trend_chart.png`: mastectomy rate by year, rural vs other counties
+- `race_chart.png`: rural vs other counties by race
 
 ## Next steps
-Look at whether the gap changed over time and whether it differs by race.
+"Test why the gap narrowed, and why it differs by race, using data with insurance and distance to radiation facilities."
