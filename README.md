@@ -1,15 +1,28 @@
-# Rural-Urban Differences in Breast Cancer Surgery Type (SEER)
+# Breast Cancer Surgery Type by County Type (SEER, 2004-2022)
 
-**Question:** Among women with early-stage (localized) breast cancer, does the chance of mastectomy, rather than breast-conserving surgery, change as counties become more rural?
+## Question
+Are women with localized breast cancer in rural counties more likely to have a mastectomy instead of breast-conserving surgery than women in large-city counties?
 
-**Data:** SEER Research Data, 17 Registries (Nov 2025 submission). Women diagnosed 2004-2022 with localized breast cancer. Patient-level data are not included in this repository, in line with the SEER data use agreement.
+## Data
+SEER Research Data (17 registries, 2004-2022). Women with localized-stage breast cancer who had either a mastectomy or breast-conserving surgery (about 700,000 women). The data is not included here because SEER's rules do not allow sharing it.
 
-**Methods:** R (tidyverse). Surgery codes from RX Summ--Surg Prim Site were grouped as breast-conserving (20-24) and mastectomy (30-80). Counties were classified by the Rural-Urban Continuum Code.
+## Methods
+Done in R. I grouped the SEER surgery codes into mastectomy and breast-conserving surgery, then used logistic regression to compare county types, adjusting for age group, race, marital status and diagnosis year.
 
-**Preliminary result (unadjusted):** Among 704,242 women who had surgery, the percentage having a mastectomy ranged from about 32% in mid-size metropolitan counties to about 38% in nonmetropolitan counties.
+## Main finding
+Women in rural (nonmetropolitan) counties had about 28% higher odds of a mastectomy than women in large-city counties (odds ratio 1.28, 95% CI 1.25 to 1.32), even after adjusting for the factors above. Women in small metro counties had odds about 17% higher (1.17).
 
-**Status:** Adjusted analysis (age, race, marital status, year of diagnosis) is in progress.
+![Chart](county_chart.png)
 
-**Related work:** Ayub S, et al. Rurality and income on breast cancer outcomes: an analysis of the SEER database. Ann Surg Oncol. 2026;33(5):4595-4603. This project is a replication and extension of that line of work.
+## Limits
+- This shows an association, not a cause.
+- This SEER database has no insurance information and no distance to radiation centers, so I cannot test why the gap exists.
+- Only localized-stage cases were included.
+- Similar studies on rural-urban surgery differences exist, so this project is a learning and portfolio project, not a new discovery.
 
-**Files:** `seer_breast_analysis.R` (analysis script), `mastectomy_by_county.png` (figure)
+## Files
+- `seer_breast_analysis.R`: full analysis code
+- `county_chart.png`: results chart
+
+## Next steps
+Look at whether the gap changed over time and whether it differs by race.
